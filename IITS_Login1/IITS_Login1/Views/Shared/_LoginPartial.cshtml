@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <li class="dropdown text-normal nav-profile" dropdown is-open="status.isopenProfile">
+            <a href="javascript:;" dropdown-toggle ng-disabled="disabled">
+                <img src="images/g1.jpg" alt="" class="img-circle img30_30">
+                <span class="hidden-xs">
+                    <span data-i18n="@User.Identity.GetUserName()"></span>
+                </span>
+            </a>
+            <ul class="dropdown-menu with-arrow pull-right">
+                <li>
+                    <a href="#/pages/profile">
+                        <i class="ti-user"></i>
+                        <span data-i18n="My Profile"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#@Url.Action("Manage", "Account", routeValues: null)">
+                        <i class="ti-check-box"></i>
+                        <span data-i18n="Manage"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/pages/lock-screen">
+                        <i class="ti-lock"></i>
+                        <span data-i18n="Lock"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                        <i class="ti-export"></i>
+                        <span data-i18n="Log Out"></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+        @*<ul class="nav navbar-nav navbar-right">
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>*@
+    }
+}
+else
+{
+    <li>
+        <ul>
+            @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+            <li>
+                @{
+                    var url = Url.Action("Register", "Account", null);
+                    url = "#"+HttpUtility.UrlDecode(url);
+                }
+
+                <a data-ng-href="@url">Register</a>
+            </li>
+            @*<li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+            <li>
+                @{
+                    var urlLogin = Url.Action("Login", "Account", null);
+                    urlLogin = "#" + HttpUtility.UrlDecode(urlLogin);
+                }
+
+                <a data-ng-href="@urlLogin">Log in</a>
+            </li>
+            <li>
+                @{
+                    var urlHome = Url.Action("Index", "Home", null);
+                    urlHome = "" + HttpUtility.UrlDecode(urlHome);
+                }
+
+                <a data-ng-href="@urlHome">Home</a>
+            </li>
+        </ul>
+    </li>
+    @*<ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>*@
+}

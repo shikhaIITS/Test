@@ -1,0 +1,12 @@
+﻿@using Microsoft.Owin.Security
+<h4>Use Windows Authentication.</h4>
+<hr />
+<div>
+    @using (Html.BeginWindowsAuthForm(new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+        <input type="submit" value="Windows" class="btn btn-default" />
+    }
+</div>
+<br />

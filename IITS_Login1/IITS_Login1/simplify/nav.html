@@ -1,0 +1,54 @@
+<script src="../Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $.getJSON('http://localhost:31359/api/navigationmenu/GetTopic', function (data) {
+            //console.log(data);
+            //Method 1:
+            //for (var i in data)
+            //{
+            //    var ul = $("#nav");
+            //    //ul.append("<li><a href='#/Message/EditMessage'><i class='ti-angle-right'></i><span data-i18n='" + data[i].Topic + "'></span></a></li>");
+            //    ul.append("<li><a href='#'><i class='ti-files'></i><span data-i18n='" + data[i].Topic + "'>" + data[i].Topic + "</span></a></li>");
+            //    i++;
+            //}
+            //Method 2:
+            for (var i in data)
+            {
+                var ul = $("#nav");
+                ul.append("<li><a href='#' tooltip='"+data[i].ToolTip+"'><i class='ti-files'></i><span data-i18n='" + data[i].Name + "'>" + data[i].Name + "</span></a>");
+                var TopicID = data[i].Id;
+                ul.append("<ul>");
+                $.getJSON('http://localhost:31359/api/navigationmenu/GetCategory/' + TopicID, function (categoryData) {
+                    //console.log(categoryData);
+                    for (var j in categoryData) {
+                        
+                        console.log( "Category: " + categoryData[j].Name);
+                        ul.append("<li><a href='#' tooltip='" + categoryData[j].ToolTip + "'><i class='ti-files'></i><span data-i18n='" + categoryData[j].Name + "'>" + categoryData[j].Name + "</span></a></li>");
+                        j++;
+                    }
+                });
+                ul.append("</ul>");
+                i++;
+                ul.append("</li>");
+            }
+           // console.log(data);
+        });
+    });
+</script>
+<div class="nav-wrapper">
+    <ul id="nav"
+        class="nav"
+        data-ng-controller="NavCtrl"
+        data-slim-scroll
+        data-collapse-nav
+        data-highlight-active>
+        <li><a href="#/Home/Index"> <i class="ti-home"></i><span data-i18n="Dashboard"></span> </a></li>
+        <li>
+            <a href="#/Message"><i class="ti-files"></i><span data-i18n="Messages"></span></a>
+            <ul>
+                <li><a href="#/Message/AddMessage"><i class="ti-angle-right"></i><span data-i18n="Add Message"></span></a></li>
+                <li><a href="#/Message/EditMessage"><i class="ti-angle-right"></i><span data-i18n="Edit Message"></span></a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
